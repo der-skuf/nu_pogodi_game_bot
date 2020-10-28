@@ -1,19 +1,23 @@
-import pytest
 import cv2
-# from settings import full_window_btn_png, opened_game_screenshoot_png
-from settings import imgs
+import pytest
 
-from main import open_browser
+from settings import imgs
 
 
 @pytest.fixture
 def full_window_btn():
-    return cv2.imread(imgs['full_window_btn_png'], cv2.COLOR_BGR2GRAY)
+    test = cv2.imread(imgs['full_window_btn_png'], cv2.COLOR_BGR2GRAY)
+    return cv2.cvtColor(test, cv2.COLOR_BGR2GRAY)
 
 
 @pytest.fixture
 async def full_src_btn_coords():
-    return 749.0, 909.9428571428572
+    return (747.0, 912.6666666666666)
+
+
+@pytest.fixture
+async def full_window_btn_png():
+    return imgs['full_window_btn_png']
 
 
 @pytest.fixture
