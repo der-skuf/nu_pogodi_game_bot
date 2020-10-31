@@ -1,13 +1,12 @@
-import cv2
 import pytest
 
 from settings import imgs
+from utils import CVImage
 
 
 @pytest.fixture
 def full_window_btn():
-    test = cv2.imread(imgs['full_window_btn_png'], cv2.COLOR_BGR2GRAY)
-    return cv2.cvtColor(test, cv2.COLOR_BGR2GRAY)
+    return CVImage.read_gray_img(img_path=imgs['full_window_btn_png'])
 
 
 @pytest.fixture
@@ -22,6 +21,17 @@ async def full_window_btn_png():
 
 @pytest.fixture
 async def opened_game_screenshoot():
-    opened_game_screenshoot = cv2.imread(imgs['opened_game_screenshoot_png'], cv2.COLOR_BGR2GRAY)
-    gray_frame = cv2.cvtColor(opened_game_screenshoot, cv2.COLOR_BGR2GRAY)
-    return gray_frame
+    return CVImage.read_gray_img(img_path=imgs['opened_game_screenshoot_png'])
+
+@pytest.fixture
+async def full_game_1920x1080_png():
+    return CVImage.read_gray_img(img_path=imgs['full_game_1920x1080_png'])
+
+@pytest.fixture
+async def all_egg_position():
+    return {
+        'top_left': {'top': 400, 'left': 570, 'width': 202, 'height': 162},
+        'bottom_left': {'top': 549, 'left': 570, 'width': 202, 'height': 162},
+        'bottom_right': {'top': 549, 'left': 1140, 'width': 202, 'height': 162},
+        'top_right': {'top': 400, 'left': 1140, 'width': 202, 'height': 162}
+    }

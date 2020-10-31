@@ -4,8 +4,8 @@ from mss import mss
 from numpy import array as nparray, where, mean, ndarray
 from typing import Tuple
 
-from interfaces import CV2Interface, CVImageInterface
-from settings import monitor
+from interfaces import CV2Interface, CVImageInterface, IAutoGUI
+from settings import monitor, default_threshold
 
 
 class CV2Engine(CV2Interface):
@@ -21,13 +21,25 @@ class CV2Engine(CV2Interface):
     def imread(img_path, color=cv2.COLOR_BGR2GRAY):
         return cv2.imread(img_path, color)
 
+    @staticmethod
+    def imshow(image_name, image):
+        return cv2.imshow(image_name, image)
+
+    @staticmethod
+    def waitKey(key=0):
+        return cv2.waitKey(key)
+
+    @staticmethod
+    def destroyAllWindows():
+        return cv2.destroyAllWindows()
+
 
 class CVImage(CVImageInterface):
     '''Класс для работы с изображениями'''
     cv2 = CV2Engine
 
     @classmethod
-    def get_gray_screenshoot(cls):
+    def get_gray_screenshoot(cls, monitor=monitor):
         with mss() as sct:
             img = nparray(sct.grab(monitor))
         gray_monitor_img = cls.cv2.cvtColor(img)
@@ -40,13 +52,13 @@ class CVImage(CVImageInterface):
         return gray_image
 
     @classmethod
-    def match_template(cls, image, template, threshold=0.8):
+    def match_template(cls, image, template, threshold=default_threshold):
         res = cls.cv2.matchTemplate(image, template)
         loc = where(res >= threshold)
         return loc
 
     @staticmethod
-    def get_img_center_from_loc(loc: ndarray , template_shape: Tuple[int, int]) -> Tuple:
+    def get_img_center_from_loc(loc: ndarray, template_shape: Tuple[int, int]) -> Tuple:
         w, h = template_shape  # Метод вызываемый у ndarray
         center_list = list()
         for x1, y1 in zip(*loc[::-1]):
@@ -57,7 +69,28 @@ class CVImage(CVImageInterface):
         avg_center = tuple(map(mean, zip(*center_list)))
         return avg_center
 
+    @classmethod
+    def print_image(cls, image, image_name="Image"):
+        cls.cv2.imshow(image_name, image)
+        cls.cv2.waitKey()
+        cls.cv2.destroyAllWindows()
 
-async def mouse_click(coord_x: int, coord_y: int) -> bool:
-    pyautogui.click(x=coord_x, y=coord_y)
-    return True
+
+def convert_monitor_to_xy(monitor):
+    x1 = monitor['left']
+    y1 = monitor['top']
+    x2 = monitor['left'] + monitor['width']
+    y2 = monitor['top'] + monitor['height']
+    return (x1, y1), (x2, y2)
+
+
+class AutoGUI(IAutoGUI):
+    @staticmethod
+    async def mouse_click(coord_x: int, coord_y: int) -> bool:
+        pyautogui.click(x=coord_x, y=coord_y)
+        return True
+
+    @staticmethod
+    def alert(text: str, title: str, button: str, **kwargs):
+        pyautogui.alert(text=text, title=title, button=button, **kwargs)
+        return True
