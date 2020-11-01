@@ -1,31 +1,35 @@
 import pytest
 
 from settings import imgs
-from utils import CVImage
-
-
-@pytest.fixture
-def full_window_btn():
-    return CVImage.read_gray_img(img_path=imgs['full_window_btn_png'])
-
-
-@pytest.fixture
-async def full_src_btn_coords():
-    return (747.0, 912.6666666666666)
+from utils.utils import CVImage
 
 
 @pytest.fixture
 async def full_window_btn_png():
-    return imgs['full_window_btn_png']
+    return imgs.get_nested_filename('launch.full_window_btn_png')
+
+
+@pytest.fixture
+def full_window_btn(full_window_btn_png):
+    return CVImage.read_gray_img(img_path=full_window_btn_png)
+
+
+@pytest.fixture
+async def full_src_btn_coords():
+    return 747.0, 912.6666666666666
 
 
 @pytest.fixture
 async def opened_game_screenshoot():
-    return CVImage.read_gray_img(img_path=imgs['opened_game_screenshoot_png'])
+    img_path = imgs.get_nested_filename('tests.opened_game_screenshoot_png')
+    return CVImage.read_gray_img(img_path=img_path)
+
 
 @pytest.fixture
 async def full_game_1920x1080_png():
-    return CVImage.read_gray_img(img_path=imgs['full_game_1920x1080_png'])
+    img_path = imgs.get_nested_filename('tests.full_game_1920x1080_png')
+    return CVImage.read_gray_img(img_path=img_path)
+
 
 @pytest.fixture
 async def all_egg_position():

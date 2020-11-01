@@ -1,7 +1,7 @@
 import pytest
 
-from main import HTMLGameLauncher
-from utils import CVImage, convert_monitor_to_xy, AutoGUI
+from game import HTMLGameLauncher
+from utils.utils import CVImage, convert_monitor_to_xy, AutoGUI
 from settings import imgs
 
 
@@ -49,3 +49,10 @@ async def test_get_egg_position(all_egg_position, full_game_1920x1080_png):
             egg_position_png,
             0.8
         )
+
+
+@pytest.mark.asyncio
+async def test_get_egg_position():
+    await HTMLGameLauncher.start_game(game_type='B')
+    assert True == True
+    pass

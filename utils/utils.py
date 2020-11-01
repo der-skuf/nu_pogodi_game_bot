@@ -14,8 +14,8 @@ class CV2Engine(CV2Interface):
         return cv2.cvtColor(img, color)
 
     @staticmethod
-    def matchTemplate(image, template, method=cv2.TM_CCOEFF_NORMED):
-        return cv2.matchTemplate(image, template, method)
+    def matchTemplate(image, template, method=cv2.TM_CCOEFF_NORMED, **kwargs):
+        return cv2.matchTemplate(image, template, method, **kwargs)
 
     @staticmethod
     def imread(img_path, color=cv2.COLOR_BGR2GRAY):
@@ -52,8 +52,8 @@ class CVImage(CVImageInterface):
         return gray_image
 
     @classmethod
-    def match_template(cls, image, template, threshold=default_threshold):
-        res = cls.cv2.matchTemplate(image, template)
+    def match_template(cls, image, template, threshold=default_threshold, **kwargs):
+        res = cls.cv2.matchTemplate(image, template, **kwargs)
         loc = where(res >= threshold)
         return loc
 

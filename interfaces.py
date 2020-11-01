@@ -53,8 +53,13 @@ class CV2Interface(ABC):
 
 class IGameLauncher(ABC):
     @abstractclassmethod
-    def has_launched(cls) -> bool:
+    async def has_launched(cls) -> bool:
         ''' Метод должен релизовать запуск игры и довести до момента "старт" '''
+        pass
+
+    @abstractclassmethod
+    async def start_game(cls, game_type: str) -> bool:
+        ''' Метод должен релизовать нажатие кнопки "старт" и запустить игру'''
         pass
 
 

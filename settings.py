@@ -1,3 +1,5 @@
+from utils.settings_utils import ImgDotDict, masks, templates
+
 game_url = 'https://ollgames.ru/nu-pogodi/'
 monitors = {
     '1920x1080': {"top": 0, "left": 0, "width": 1920, "height": 1080},
@@ -10,18 +12,27 @@ monitor = monitors['1920x1080']
 
 game_screen_size = {"top": 210, "left": 500, "width": 910, "height": 650}
 
-imgs = {
-    'rus_flag_png': "imgs/rus_flag.png",
-    'full_window_btn_png': "imgs/full_window_btn.png",
-    'opened_game_screenshoot_png': "imgs/opened_game_screenshoot.png",
-    'start_game_png': "imgs/start_game.png",
-    'submit_instruction_btn_png': "imgs/submit_instruction_btn.png",
-    'top_right_png': "imgs/top_right.png",
-    'top_left_png': "imgs/top_left.png",
-    'bottom_left_png': "imgs/bottom_left.png",
-    'bottom_right_png': "imgs/bottom_right.png",
-    'full_game_1920x1080_png': "imgs/full_game_1920x1080.png",
-}
+imgs = ImgDotDict({
+    'launch': ImgDotDict({
+        'rus_flag_png': "rus_flag",
+        'full_window_btn_png': "full_window_btn",
+        'start_game_png': "start_game",
+        'submit_instruction_btn_png': "submit_instruction_btn",
+    }),
+
+    'tests': ImgDotDict({
+        'opened_game_screenshoot_png': "opened_game_screenshoot",
+        'full_game_1920x1080_png': "full_game_1920x1080",
+        'top_right_png': "top_right",
+        'top_left_png': "top_left",
+        'bottom_left_png': "bottom_left",
+        'bottom_right_png': "bottom_right",
+    }),
+
+    'templates': templates,
+    'masks': masks,
+
+})
 
 
 def get_egg_position():
