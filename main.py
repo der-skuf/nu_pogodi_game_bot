@@ -1,14 +1,10 @@
 import asyncio
 
-from game import HTMLGameLauncher
+from game import Game
 
 
 async def main():
-    game_has_ready = await HTMLGameLauncher.has_launched()
-    if game_has_ready:
-        print('ready to start')
-    else:
-        print('failed')
+    await Game.start()
 
     return True
 

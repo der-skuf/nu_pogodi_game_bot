@@ -1,3 +1,6 @@
+<img src='imgs/game_example.gif'>
+
+
 # Installation
 ```
 python -V
